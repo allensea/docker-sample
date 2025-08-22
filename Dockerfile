@@ -4,9 +4,9 @@
 FROM node:lts-alpine@sha256:1b2479dd35a99687d6638f5976fd235e26c5b37e8122f786fcd5fe231d63de5b AS builder
 WORKDIR /src
 RUN --mount=src=package.json,target=package.json \
-    --mount=src=package-lock.json,target=package-lock.json \
     --mount=type=cache,target=/root/.npm \
-    npm ci
+    npm config set package-lock false && \
+    npm install
 COPY . .
 RUN --mount=type=cache,target=/root/.npm \
     npm run build
